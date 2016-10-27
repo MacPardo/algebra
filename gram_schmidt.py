@@ -12,13 +12,13 @@ são aproximações das respostas corretas
 from copy import deepcopy
 from math import sqrt
 
-def print_matriz(matriz):
+def print_matriz(matriz): #ok
     for i in matriz:
         for j in i:
             print('%.1f'%j, end = '\t')
         print()
 
-def solve(matrix, mul):
+def solve(matrix, mul): #ok
     width = len(matrix)
     if width == 1:
         return mul * matrix[0][0]
@@ -37,7 +37,7 @@ def solve(matrix, mul):
             total += mul * solve(m, sign * matrix[0][i])
         return total
 
-def inverter_matriz(matriz):
+def inverter_matriz(matriz): #ok
 
     matriz = deepcopy(matriz)
 
@@ -47,7 +47,7 @@ def inverter_matriz(matriz):
 
     return matriz
 
-def to_versor(vetor):
+def versor(vetor): #ok
     vetor = deepcopy(vetor)
     modulo = 0
     for i in vetor:
@@ -57,13 +57,13 @@ def to_versor(vetor):
         vetor[i] /= modulo
     return vetor
 
-def produto_interno(a, b):
+def produto_interno(a, b): #ok
     produto = 0
     for i in range(len(a)):
         produto += a[i] * b[i]
     return produto
 
-def projecao(a, b):
+def projecao(a, b): #ok
     #calcula a projecao de A em B
     p_interno = produto_interno(a,b)
     b = deepcopy(b)
@@ -71,45 +71,52 @@ def projecao(a, b):
         b[i] *= p_interno
     return b
 
-def vetor_subtracao(a, b):
+def vetor_subtracao(a, b): #ok
     #faz a - b
     soma = []
     for i in range(len(a)):
         soma.append(a[i] - b[i])
     return soma
 
-def vetor_soma(a, b):
+def vetor_soma(a, b): #ok
     #faz a + b
     soma = []
-    print(a,b)
     for i in range(len(a)):
         soma.append(a[i] + b[i])
     return soma
 
-def ortonormalizacao_completa(vetores):
-
+def ortonormalizacao_completa(vetores): #ok
     ortonormalizados = []
 
     for i in range(len(vetores)):
 
-        projecao_soma = []
-        for j in range(len(vetores[0])): projecao_soma.append(0)
+        projecoes = []
+        for j in range(len(vetores[0])):
+            projecoes.append(0)
 
         for j in range(i):
-            projecao_soma = vetor_soma(projecao_soma, projecao(vetores[i], vetores[j]))
+            print(i,j)
+            print(len(ortonormalizados))
+            projecoes = vetor_soma(projecoes, projecao(vetores[i], ortonormalizados[j]))
 
-        v = vetor_subtracao(vetores[i], projecao_soma)
-        v = to_versor(v)
-
-        ortonormalizados.append(v)
+        ortonormalizados.append(versor(vetor_subtracao(vetores[i], projecoes)))
 
     return ortonormalizados
+
+
+
 
 matriz = [
     [2,3,5,7],
     [11,13,17,19],
     [23,29,31,41],
     [43,47,53,59]
+]
+
+vets = [
+    [1,2,1],
+    [1,1,3],
+    [2,1,1]
 ]
 
 
@@ -119,4 +126,12 @@ vetores = [
     [1,1,3,4,3],
     [1,1,2,4,2],
     [1,1,1,1,1]
+]
+
+vetores_answer = [
+    [1/sqrt(55), 2/sqrt(55), 3/sqrt(55), 4/sqrt(55), sqrt(5/11)],
+    [1/sqrt(66), sqrt(2/33), sqrt(3/22), 2*sqrt(2/33), -sqrt(6/11)],
+    [1/sqrt(195), -sqrt(13/15), sqrt(3/65), 4/sqrt(195), 0],
+    [3/sqrt(442), 0, -sqrt(17/26), 6*sqrt(2/221), 0],
+    [4/sqrt(17), 0, 0, -1/sqrt(17), 0]
 ]
