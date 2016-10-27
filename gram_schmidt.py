@@ -1,5 +1,7 @@
 '''
-para executar o programa digite no terminal:
+Marcos Theophilo Gobbi Adamczuk
+
+---------->para executar o programa digite no terminal:
 python3 nome_do_programa.py
 
 nota: os cálculos não foram feitos com frações,
@@ -8,13 +10,12 @@ são aproximações das respostas corretas
 '''
 
 from copy import deepcopy
-from fractions import Fraction
 from math import sqrt
 
 def print_matriz(matriz):
     for i in matriz:
         for j in i:
-            print(j, end = '\t')
+            print('%.1f'%j, end = '\t')
         print()
 
 def solve(matrix, mul):
@@ -70,21 +71,52 @@ def projecao(a, b):
         b[i] *= p_interno
     return b
 
-def ortonormalizacao(vetores):
-    #vetores é uma matriz de vetores
+def vetor_subtracao(a, b):
+    #faz a - b
+    soma = []
+    for i in range(len(a)):
+        soma.append(a[i] - b[i])
+    return soma
+
+def vetor_soma(a, b):
+    #faz a + b
+    soma = []
+    print(a,b)
+    for i in range(len(a)):
+        soma.append(a[i] + b[i])
+    return soma
+
+def ortonormalizacao_completa(vetores):
 
     ortonormalizados = []
-    #ortonormalizados é uma matriz dos vetores após
-    #o processo de ortonormalização
 
     for i in range(len(vetores)):
-        projecao_soma = 0
+
+        projecao_soma = []
+        for j in range(len(vetores[0])): projecao_soma.append(0)
+
         for j in range(i):
-            
+            projecao_soma = vetor_soma(projecao_soma, projecao(vetores[i], vetores[j]))
+
+        v = vetor_subtracao(vetores[i], projecao_soma)
+        v = to_versor(v)
+
+        ortonormalizados.append(v)
+
+    return ortonormalizados
 
 matriz = [
     [2,3,5,7],
     [11,13,17,19],
     [23,29,31,41],
     [43,47,53,59]
+]
+
+
+vetores = [
+    [1,2,3,4,5],
+    [1,2,3,4,4],
+    [1,1,3,4,3],
+    [1,1,2,4,2],
+    [1,1,1,1,1]
 ]
