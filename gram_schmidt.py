@@ -95,16 +95,61 @@ def ortonormalizacao_completa(vetores): #ok
             projecoes.append(0)
 
         for j in range(i):
-            print(i,j)
-            print(len(ortonormalizados))
             projecoes = vetor_soma(projecoes, projecao(vetores[i], ortonormalizados[j]))
 
         ortonormalizados.append(versor(vetor_subtracao(vetores[i], projecoes)))
 
     return ortonormalizados
 
+def ler_arquivo(nome_arquivo):
+    linhas = open(nome_arquivo, 'r').readlines()
 
+    vetores = []
 
+    for i in linhas:
+        if len(i) == 0 or i[0] != '(': continue
+        vetor = []
+        num_string = ""
+        for j in i:
+            if j in "(,)":
+                if(num_string != ""): vetor.append(int(num_string))
+                num_string = ''
+            elif j in "0123456789":
+                num_string += j
+        vetores.append(vetor)
+
+    return vetores
+
+def main():
+    nome_arquivo = "ortogonaliza.txt"
+    vetores = ler_arquivo(nome_arquivo)
+
+    linhas_originais = open(nome_arquivo, 'r').readlines()
+
+    linhas = []
+
+    if(solve(inverter_matriz(vetores), 1) != 0):
+        resposta = ortonormalizacao_completa(vetores)
+        for linha in resposta:
+            nova_linha = []
+            linhas.append(nova_linha)
+            nova_linha.append('(')
+            for numero in range(len(linha)):
+                nova_linha.append('%.2f' % linha[numero])
+                if numero < len(linha) - 1: nova_linha.append(',')
+            nova_linha.append(')')
+    else:
+        linhas.append(["OS VETORES NAO FORMAM BASE"])
+
+    escrever = open(nome_arquivo, 'w')
+    for linha in linhas_originais:
+        escrever.write(linha)
+    escrever.write('\n')
+    for linha in linhas:
+        escrever.write(''.join(linha) + '\n\n')
+    escrever.close()
+
+if __name__ == '__main__': main()
 
 matriz = [
     [2,3,5,7],
