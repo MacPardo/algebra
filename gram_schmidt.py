@@ -1,7 +1,7 @@
 '''
 Marcos Theophilo Gobbi Adamczuk
 
----------->para executar o programa digite no terminal:
+---------->PARA EXECUTAR O PROGRAMA digite no terminal:
 python3 nome_do_programa.py
 
 nota: os cálculos não foram feitos com frações,
@@ -36,16 +36,6 @@ def solve(matrix, mul): #ok
             sign *= -1
             total += mul * solve(m, sign * matrix[0][i])
         return total
-
-def inverter_matriz(matriz): #ok
-
-    matriz = deepcopy(matriz)
-
-    for i in range(len(matriz)):
-        for j in range(i+1, len(matriz)):
-            matriz[i][j], matriz[j][i] = matriz[j][i], matriz[i][j]
-
-    return matriz
 
 def versor(vetor): #ok
     vetor = deepcopy(vetor)
@@ -128,7 +118,7 @@ def main():
 
     linhas = []
 
-    if(solve(inverter_matriz(vetores), 1) != 0):
+    if(solve(vetores, 1) != 0):
         resposta = ortonormalizacao_completa(vetores)
         for linha in resposta:
             nova_linha = []
@@ -150,33 +140,3 @@ def main():
     escrever.close()
 
 if __name__ == '__main__': main()
-
-matriz = [
-    [2,3,5,7],
-    [11,13,17,19],
-    [23,29,31,41],
-    [43,47,53,59]
-]
-
-vets = [
-    [1,2,1],
-    [1,1,3],
-    [2,1,1]
-]
-
-
-vetores = [
-    [1,2,3,4,5],
-    [1,2,3,4,4],
-    [1,1,3,4,3],
-    [1,1,2,4,2],
-    [1,1,1,1,1]
-]
-
-vetores_answer = [
-    [1/sqrt(55), 2/sqrt(55), 3/sqrt(55), 4/sqrt(55), sqrt(5/11)],
-    [1/sqrt(66), sqrt(2/33), sqrt(3/22), 2*sqrt(2/33), -sqrt(6/11)],
-    [1/sqrt(195), -sqrt(13/15), sqrt(3/65), 4/sqrt(195), 0],
-    [3/sqrt(442), 0, -sqrt(17/26), 6*sqrt(2/221), 0],
-    [4/sqrt(17), 0, 0, -1/sqrt(17), 0]
-]
